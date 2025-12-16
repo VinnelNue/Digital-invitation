@@ -12,17 +12,17 @@ export default function Invite() {
 
         <motion.p
           initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
+          animate={{ opacity: 2, y: 0 }}
+          transition={{ duration: 2 }}
           className="text-xs tracking-[0.35em] text-neutral-500 mb-8"
         >
           WEDDING INVITATION
         </motion.p>
 
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 1 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 2, y: 0 }}
+          transition={{ delay: 0.6, duration: 2 }}
           className="font-playfair text-4xl md:text-5xl text-neutral-900 mb-6"
         >
           Kevin Immanuel <br /> & Theresia Nathalia Biantoro

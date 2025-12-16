@@ -1,13 +1,14 @@
 "use client"
 
-import { Home, CalendarDays, Image, Mail } from "lucide-react"
+import { Home, CalendarDays, Image, Mail ,Bubbles } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 
 const menus = [
   { icon: Home, path: "/open" },
-  { icon: CalendarDays, path: "/open/invitation" },
+  { icon: CalendarDays, path: "/open/invite" },
   { icon: Image, path: "/open/gallery" },
   { icon: Mail, path: "/open/rsvp" },
+  { icon: Bubbles, path: "/open/bubble" },
 ]
 
 export default function FloatingMenu() {

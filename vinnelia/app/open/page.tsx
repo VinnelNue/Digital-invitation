@@ -18,7 +18,7 @@ export default function OpenPage() {
 >
   {/* Background Image */}
   <img
-    src="/images/hero.jpg"
+    src="/images/gallery/thumbs/4.jpg"
     alt="Wedding Cover"
     className="absolute inset-0 w-full h-full object-cover"
   />
