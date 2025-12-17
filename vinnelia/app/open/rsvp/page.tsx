@@ -23,7 +23,7 @@ export default function RSVPPage() {
     setSuccess(false)
 
     try {
-        const res = await fetch("http://localhost/Digital-invitation/vinnelia/backend/rsvp/rsvp_save.php", {
+        const res = await fetch("https://vinnelia.great-site.net/backend/rsvp/rsvp_save.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, status, jumlah_tamu: jumlahTamu, message, fromColor, toColor }),

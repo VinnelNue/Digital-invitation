@@ -1,7 +1,12 @@
 <?php
-require_once __DIR__ . '/../conn.php';
-header('Content-Type: application/json');
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
+
+require_once __DIR__ . '/../conn.php';
+
 
 $sql = "SELECT name, message, from_color, to_color FROM rsvp ORDER BY id DESC";
 $result = $conn->query($sql);

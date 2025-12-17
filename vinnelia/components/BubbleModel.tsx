@@ -48,7 +48,7 @@ export default function BubbleModel({ onSelect }: { onSelect?: (item: RSVP) => v
   const [data, setData] = useState<Bubble[]>([])
 
   useEffect(() => {
-    fetch("http://localhost/Digital-invitation/vinnelia/backend/rsvp/rsvp_list.php")
+    fetch("https://vinnelia.great-site.net/backend/rsvp/rsvp_list.php")
       .then(res => res.json())
       .then(res => {
         if (res.success) {
