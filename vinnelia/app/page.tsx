@@ -25,7 +25,9 @@ export default function Invite() {
           transition={{ delay: 0.6, duration: 2 }}
           className="font-playfair text-4xl md:text-5xl text-neutral-900 mb-6"
         >
-          Kevin Immanuel <br /> & Theresia Nathalia Biantoro
+            Kevin Immanuel
+           <div className="opacity-90 my-2">&</div> 
+           Theresia Nathalia Biantoro
         </motion.h1>
 
         <motion.p

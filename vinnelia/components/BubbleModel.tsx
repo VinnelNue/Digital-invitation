@@ -44,39 +44,38 @@ function generateNonOverlappingPositions(bubbles: Bubble[], areaWidth: number, a
 export default function BubbleModel({ onSelect }: { onSelect?: (item: RSVP) => void }) {
   const [data, setData] = useState<Bubble[]>([])
 
-  useEffect(() => {
-    // FUNGSI BARU: Ambil data dari Supabase
-    const fetchRSVP = async () => {
-      const { data: rsvpData, error } = await supabase
-        .from('rsvp')
-        .select('*')
-        .order('created_at', { ascending: false }) // Urutkan dari yang terbaru
+useEffect(() => {
+  const fetchRSVP = async () => {
+    const { data: rsvpData, error } = await supabase
+      .from('rsvp')
+      .select('*')
+      .order('created_at', { ascending: false })
 
-      if (error) {
-        console.error("Error fetching RSVP:", error.message)
-        return
-      }
+    if (rsvpData) {
+      const bubbles = rsvpData.map((item: RSVP) => {
+        const preview = item.message ? item.message.split(" ")[0] : ""
+        const size = Math.min(100, 60 + preview.length * 4) // Ukuran dikecilkan sedikit buat HP
+        return {
+          ...item,
+          x: 0,
+          y: 0,
+          size,
+          floatDuration: 5 + Math.random() * 5
+        }
+      })
 
-      if (rsvpData) {
-        const bubbles = rsvpData.map((item: RSVP) => {
-          const preview = item.message ? item.message.split(" ")[0] : ""
-          const size = Math.min(120, 70 + preview.length * 5) // Ukuran bubble sedikit disesuaikan
-          return {
-            ...item,
-            x: 0,
-            y: 0,
-            size,
-            floatDuration: 5 + Math.random() * 5 // Durasi melayang
-          }
-        })
-
-        const positioned = generateNonOverlappingPositions(bubbles, 600, 400) // Area disesuaikan
-        setData(positioned)
-      }
+      // PERBAIKAN DI SINI:
+      // Gunakan window.innerWidth agar areanya pas dengan layar HP
+      const screenWidth = typeof window !== 'undefined' ? window.innerWidth - 100 : 300
+      const screenHeight = 400 
+      
+      const positioned = generateNonOverlappingPositions(bubbles, screenWidth, screenHeight)
+      setData(positioned)
     }
+  }
 
-    fetchRSVP()
-  }, [])
+  fetchRSVP()
+}, [])
 
   function hexToRgba(hex: string, alpha: number) {
     if (!hex) return `rgba(251, 194, 235, ${alpha})`
@@ -89,8 +88,10 @@ export default function BubbleModel({ onSelect }: { onSelect?: (item: RSVP) => v
     return `rgba(${r},${g},${b},${alpha})`
   }
 
+// ... kode atas tetap sama ...
+
   return (
-    <div className="relative w-full h-[calc(100vh-4rem)] overflow-hidden">
+    <div className="relative w-full h-[calc(100vh-8rem)] overflow-hidden">
       {data.map((item, i) => {
         const fromColor = hexToRgba(item.from_color, 0.8)
         const toColor = hexToRgba(item.to_color, 0.8)
@@ -99,28 +100,36 @@ export default function BubbleModel({ onSelect }: { onSelect?: (item: RSVP) => v
           <motion.div
             key={i}
             drag
-            dragConstraints={{ top: -200, bottom: 200, left: -200, right: 200 }}
+            // Perkecil constraints buat HP supaya nggak gampang hilang ditarik keluar
+            dragConstraints={{ top: -250, bottom: 250, left: -150, right: 150 }}
             className="flex flex-col items-center justify-center rounded-full text-white font-semibold cursor-pointer select-none shadow-xl p-2 absolute"
             style={{
               width: `${item.size}px`,
               height: `${item.size}px`,
               background: `linear-gradient(135deg, ${fromColor}, ${toColor})`,
+              // Trik agar benar-benar di tengah layar:
               top: "50%",
               left: "50%",
+              marginLeft: `-${item.size / 2}px`, // Mundur setengah lebar bubble
+              marginTop: `-${item.size / 2}px`,  // Mundur setengah tinggi bubble
             }}
             animate={{
-              x: [item.x, item.x + 15, item.x - 15, item.x],
-              y: [item.y, item.y - 15, item.y + 15, item.y]
+              // Gerakan melayang halus
+              x: [item.x, item.x + 10, item.x - 10, item.x],
+              y: [item.y, item.y - 10, item.y + 10, item.y]
             }}
             transition={{
               repeat: Infinity,
               duration: item.floatDuration,
-              ease: "easeInOut"
+              ease: "easeInOut",
+              delay: i * 0.2 // Biar geraknya nggak barengan semua (lebih alami)
             }}
             onClick={() => onSelect?.(item)}
           >
-            <span className="text-center text-[10px] leading-tight px-1 line-clamp-1">{item.name}</span>
-            <span className="text-[9px] opacity-80 italic mt-0.5">tap me</span>
+            <span className="text-center text-[10px] leading-tight px-1 line-clamp-2">
+              {item.name}
+            </span>
+            <span className="text-[8px] opacity-70 italic mt-0.5">tap</span>
           </motion.div>
         )
       })}
