@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Send } from "lucide-react"
 import FloatingMenu from "@/components/FloatingMenu"
+import { supabase } from "@/lib/supabase"
 
 export default function RSVPPage() {
   const [name, setName] = useState("")
@@ -17,28 +18,34 @@ export default function RSVPPage() {
   const [toColor, setToColor] = useState("#a6c1ee")
 
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
-    setSuccess(false)
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault()
+  setError("")
+  setSuccess(false)
 
-    try {
-        const res = await fetch("https://vinnelia.great-site.net/backend/rsvp/rsvp_save.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, status, jumlah_tamu: jumlahTamu, message, fromColor, toColor }),
-      })
-      const data = await res.json()
-      if (!res.ok || data.error) throw new Error(data.error || "Gagal mengirim RSVP")
+  const { error } = await supabase
+    .from('rsvp') // Nama tabel di Supabase
+    .insert([
+      { 
+        name, 
+        status, 
+        jumlah_tamu: jumlahTamu, 
+        message, 
+        from_color: fromColor, 
+        to_color: toColor 
+      }
+    ])
+
+  if (error) {
+      setError(error.message)
+    } else {
       setSuccess(true)
       setName("")
-      setStatus("Hadir")
+      setMessage("")
       setJumlahTamu(1)
-    } catch (err: any) {
-      setError(err.message)
+      setStatus("Hadir")
     }
-  }
-
+}
   return (
     <main className="min-h-screen bg-[#f7f3ee] flex items-center justify-center px-4 py-24 relative">
       <motion.div

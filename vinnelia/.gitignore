@@ -13,9 +13,10 @@
 # testing
 /coverage
 
+.backend
 # next.js
 .next
-/out/
+/out/git rm -r --cached .
 .node_modules
 # production
 /build
