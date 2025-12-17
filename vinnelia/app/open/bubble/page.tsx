@@ -11,7 +11,7 @@ export default function BubblePage() {
 
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-start py-16 px-4
-    bg-[url('/images/gallery/thumbs/12.jpg')] bg-cover bg-center
+    bg-[url('/images/gallery/thumbs/15.jpg')] bg-cover bg-center
     before:absolute before:inset-0 before:bg-black/20 before:backdrop-blur-sm">
 
 <div className="relative z-10 w-full flex flex-col items-center">
