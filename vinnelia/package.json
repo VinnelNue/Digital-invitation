@@ -2,13 +2,12 @@
   "name": "vinnelia",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "postbuild": "npx netlify-next build"
-  },
+"scripts": {
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint"
+},
   "dependencies": {
     "@netlify/next": "^1.4.9",
     "framer-motion": "^12.23.25",
