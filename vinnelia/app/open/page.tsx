@@ -49,9 +49,7 @@ export default function OpenPage() {
       className="font-playfair text-4xl md:text-6xl leading-tight mb-6"
     >
       Kevin Immanuel
-      <br />
-      <span className="opacity-90">&</span>
-      <br />
+      <div className="opacity-90 my-2">&</div> 
       Theresia Nathalia Biantoro
     </motion.h1>
 
