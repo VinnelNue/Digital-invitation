@@ -14,9 +14,9 @@
 /coverage
 
 # next.js
-/.next/
+.next
 /out/
-
+.node_modules
 # production
 /build
 
