@@ -28,24 +28,24 @@ export default function OpenPage() {
 
   {/* Content */}
   <motion.div
-    initial={{ opacity: 0, y: 40 }}
+    initial={{ opacity: 0, y: 30 }}
     animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 1.2 }}
+    transition={{ duration: 1 }}
     className="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-6 text-white"
   >
     <motion.p
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.3 }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
       className="text-xs tracking-[0.4em] mb-6 text-white/80"
     >
       WEDDING INVITATION
     </motion.p>
 
     <motion.h1
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5 }}
+      transition={{ duration: 1 }}
       className="font-playfair text-4xl md:text-6xl leading-tight mb-6"
     >
       Kevin Immanuel

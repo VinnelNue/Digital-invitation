@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "npx netlify-next build"
   },
   "dependencies": {
+    "@netlify/next": "^1.4.9",
     "framer-motion": "^12.23.25",
     "lucide-react": "^0.561.0",
     "next": "14.2.5",
