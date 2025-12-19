@@ -1,12 +1,13 @@
 "use client"
 
-import { Home, CalendarDays, Image, Mail ,Bubbles } from "lucide-react"
+import { Home, CalendarDays, Image, Mail ,Bubbles ,MapPin  } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 
 const menus = [
   { icon: Home, path: "/open" },
   { icon: CalendarDays, path: "/open/invite" },
   { icon: Image, path: "/open/gallery" },
+  { icon: MapPin, path: "/open/map" },
   { icon: Mail, path: "/open/rsvp" },
   { icon: Bubbles, path: "/open/bubble" },
 ]

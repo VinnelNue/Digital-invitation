@@ -18,7 +18,7 @@ export default function OpenPage() {
 >
   {/* Background Image */}
   <img
-    src="/images/gallery/thumbs/4.jpg"
+    src="/imagese/gallery/thumbs/4.jpg"
     alt="Wedding Cover"
     className="absolute inset-0 w-full h-full object-cover"
   />
@@ -59,7 +59,7 @@ export default function OpenPage() {
       transition={{ delay: 0.8 }}
       className="text-sm md:text-base text-white/80"
     >
-      Sabtu · 14 Februari 2026
+      Minggu · 28 Desember 2025
     </motion.p>
   </motion.div>
 

@@ -13,8 +13,8 @@ interface ImageItem {
 
 const images: ImageItem[] = Array.from({ length: 9 }, (_, i) => ({
   id: i + 1,
-  thumb: `/images/gallery/${i + 1}.jpg`,
-  full: `/images/gallery/${i + 1}.jpg`,
+  thumb: `/images//${i + 1}.jpg`,
+  full: `/images//${i + 1}.jpg`,
 }))
 
 export default function GalleryPreview() {
