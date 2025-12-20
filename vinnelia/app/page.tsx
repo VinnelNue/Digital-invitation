@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import ClientName from "../components/GuestName";
+import GuestName from "@/components/GuestName";
 import '@fontsource/great-vibes/400.css';
 import '@fontsource/poppins/400.css';
 
@@ -46,7 +46,7 @@ export default function Invite() {
       </motion.div>
 
       {/* Guest Name */}
-      <ClientName />
+      <GuestName />
 
       {/* Button Buka Undangan */}
       <motion.button
