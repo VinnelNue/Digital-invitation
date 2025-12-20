@@ -1,87 +1,85 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Home, Image, CalendarDays, Mail } from "lucide-react"
 import FloatingMenu from "@/components/FloatingMenu"
+import InviteSection from "@/components/InviteSection"
 import GalleryPreview from "@/components/GalleryPreview"
-
-
+import MapSection from "@/components/MapSection"
+import RsvpSection from "@/components/RSVPSection"
+import BubbleSection from "@/components/BubbleSection"
 
 export default function OpenPage() {
   return (
-    <main className="bg-[#f7f3ee] text-neutral-900 relative">
+    <main className="bg-neutral-50 text-neutral-800">
 
-   {/* 1. HERO */}
-<section
-  id="home"
-  className="relative min-h-screen w-full overflow-hidden"
->
-  {/* Background Image */}
-  <img
-    src="/imagese/gallery/thumbs/4.jpg"
-    alt="Wedding Cover"
-    className="absolute inset-0 w-full h-full object-cover"
-  />
+      {/* HERO */}
+      <section
+        id="home"
+        className="relative min-h-screen flex items-center justify-center text-center px-6"
+      >
+        <img
+          src="/images/background/3.jpg"
+          className="absolute inset-0 w-full h-full object-scale-down object-center"
+          alt="cover"
+        />
+        <div className="absolute inset-0 bg-black/50" />
 
-  {/* Overlay */}
-  <div className="absolute inset-0 bg-black/50" />
+        <div className="relative z-10 text-white max-w-xl">
+          <p className="text-xs tracking-[0.4em] mb-6 opacity-80">
+            WEDDING INVITATION
+          </p>
 
-  {/* Content */}
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 1 }}
-    className="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-6 text-white"
-  >
-    <motion.p
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1 }}
-      className="text-xs tracking-[0.4em] mb-6 text-white/80"
-    >
-      WEDDING INVITATION
-    </motion.p>
+          <h1 className="font-playfair text-4xl md:text-6xl leading-tight mb-6">
+            Kevin Immanuel
+            <div className="my-2">&</div>
+            Theresia Nathalia Biantoro
+          </h1>
 
-    <motion.h1
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1 }}
-      className="font-playfair text-4xl md:text-6xl leading-tight mb-6"
-    >
-      Kevin Immanuel
-      <div className="opacity-90 my-2">&</div> 
-      Theresia Nathalia Biantoro
-    </motion.h1>
+          <p className="text-sm opacity-80">
+            Minggu · 28 Desember 2025
+          </p>
+        </div>
+      </section>
 
-    <motion.p
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.8 }}
-      className="text-sm md:text-base text-white/80"
-    >
-      Minggu · 28 Desember 2025
-    </motion.p>
-  </motion.div>
+      {/* INVITE */}
+      <section id="invite" className="bg-white py-24 px-6">
+        <InviteSection />
+      </section>
 
-  {/* Scroll Indicator */}
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ delay: 1.4 }}
-    className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/80 text-xs flex flex-col items-center"
-  >
-    <span className="mb-1">Scroll</span>
-    <span className="animate-bounce">↓</span>
-  </motion.div>
-</section>
+      {/* GALLERY */}
+      <section
+        id="gallery"
+        className="bg-gradient-to-b from-neutral-100 to-neutral-200 py-24 px-6"
+      >
+        <GalleryPreview />
+      </section>
 
-      {/* 2. GALLERY */}
-      <GalleryPreview />
-      
-      {/* 6. FOOTER */}
-      <footer className="py-12 text-center text-sm text-neutral-500">
-        © 2026 Kevin & Theresia
-      </footer>
+      {/* MAP */}
+      <section
+        id="map"
+        className="relative py-24 px-6"
+      >
+        <img
+          src="/images/gallery/2.jpg"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-30"
+          alt=""
+        />
+        <div className="relative">
+          <MapSection />
+        </div>
+      </section>
+
+      {/* RSVP */}
+      <section id="rsvp" className="bg-white py-24 px-6">
+        <RsvpSection />
+      </section>
+
+      {/* BUBBLE */}
+      <section
+        id="bubble"
+        className="bg-gradient-to-b from-purple-50 to-pink-50 py-24 px-6"
+      >
+        <BubbleSection />
+      </section>
 
       <FloatingMenu />
     </main>

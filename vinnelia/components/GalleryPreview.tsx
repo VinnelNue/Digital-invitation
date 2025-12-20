@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence, Variants } from "framer-motion"
 import Image from "next/image"
 import GalleryModal from "./GalleryModal"
@@ -11,85 +11,138 @@ interface ImageItem {
   full: string
 }
 
-const images: ImageItem[] = Array.from({ length: 9 }, (_, i) => ({
-  id: i + 1,
-  thumb: `/images//${i + 1}.jpg`,
-  full: `/images//${i + 1}.jpg`,
-}))
+/* ===== KONFIG ===== */
+const TOTAL_IMAGES = 24
+const SHOW_COUNT = 9
+const CHANGE_INTERVAL = 8000 // 8 detik
+
+/* ===== BUAT POOL GAMBAR ===== */
+const imagePool: ImageItem[] = Array.from(
+  { length: TOTAL_IMAGES },
+  (_, i) => ({
+    id: i + 1,
+    thumb: `/images/gallery/thumbs/${i + 1}.jpg`,
+    full: `/images/gallery/${i + 1}.jpg`,
+  })
+)
+
+/* ===== RANDOM PICK ===== */
+function getRandomImages() {
+  return [...imagePool]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, SHOW_COUNT)
+}
 
 export default function GalleryPreview() {
+  const [images, setImages] = useState<ImageItem[]>(getRandomImages())
   const [active, setActive] = useState<ImageItem | null>(null)
+
+  /* ===== AUTO SHUFFLE ===== */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setImages(getRandomImages())
+    }, CHANGE_INTERVAL)
+
+    return () => clearInterval(interval)
+  }, [])
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.12 },
+    },
   }
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+    exit: {
+      opacity: 0,
+      y: -30,
+      transition: { duration: 0.5 },
+    },
   }
 
   return (
-    <section className="bg-[#F9F7F2] min-h-screen">
-      
-      {/* --- BAGIAN HITAM DI ATAS (HEADER) --- */}
-      <div className="bg-[#1a1a1a] text-white py-20 px-6 md:py-28">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center md:items-end justify-between gap-8">
+    <section id="gallery" className="bg-[#F9F7F2]">
+      {/* HEADER */}
+      <div className="bg-[#1a1a1a] text-white py-24 px-6">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-end">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             className="text-5xl md:text-7xl font-serif italic"
           >
             Our Moments
           </motion.h2>
-          
-          <motion.p 
+
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="max-w-md text-gray-400 text-sm md:text-base leading-relaxed font-light md:text-right border-l md:border-l-0 md:border-r border-gray-700 pl-4 md:pl-0 md:pr-4"
+            viewport={{ once: true }}
+            className="text-gray-400 leading-relaxed text-sm md:text-base"
           >
-            The tender moments captured in our gallery are memories we will cherish forever. 
-            Each photo tells a story of our love and the journey we share.
+            Every photograph tells a story —  
+            a memory of love, laughter, and the beginning of forever.
           </motion.p>
         </div>
       </div>
 
-      {/* --- BAGIAN GALERI (KREM) --- */}
-      <div className="max-w-6xl mx-auto px-6 py-16">
+      {/* GALLERY */}
+      <div className="max-w-6xl mx-auto px-6 py-20">
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10"
           variants={containerVariants}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          animate="visible"
         >
-          {images.map((img, i) => (
-            <motion.div
-              key={img.id}
-              variants={itemVariants}
-              className="relative aspect-square md:aspect-[4/5] overflow-hidden rounded-[2.5rem] cursor-pointer bg-neutral-200 group shadow-xl"
-              onClick={() => setActive(img)}
-            >
-              <Image
-                src={img.thumb}
-                alt={`Wedding Moment ${img.id}`}
-                fill
-                sizes="(max-width: 768px) 100vw, 33vw"
-                className="object-cover transition-transform duration-1000 group-hover:scale-110"
-              />
+          <AnimatePresence mode="wait">
+            {images.map((img, i) => (
+              <motion.div
+                key={img.id}
+                variants={itemVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                onClick={() => setActive(img)}
+                className={`
+                  relative
+                  ${i % 3 === 0 ? "aspect-[3/5]" : "aspect-[3/4]"}
+                  overflow-hidden
+                  rounded-[2.5rem]
+                  cursor-pointer
+                  group
+                  bg-neutral-200
+                  shadow-xl
+                `}
+              >
+                <Image
+                  src={img.thumb}
+                  alt={`Wedding Moment ${img.id}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover object-center transition-transform duration-1000 group-hover:scale-110"
+                />
 
-              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                <span className="text-white text-xs tracking-widest uppercase border border-white/50 px-6 py-2 rounded-full backdrop-blur-md">
-                  View Photo
-                </span>
-              </div>
-            </motion.div>
-          ))}
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                  <span className="text-white text-xs tracking-widest uppercase border border-white/60 px-6 py-2 rounded-full backdrop-blur-md">
+                    View Photo
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </motion.div>
       </div>
 
+      {/* MODAL */}
       <AnimatePresence>
         {active && (
           <GalleryModal

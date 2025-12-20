@@ -1,47 +1,57 @@
 "use client"
 
-import { Home, CalendarDays, Image, Mail ,Bubbles ,MapPin  } from "lucide-react"
-import { usePathname, useRouter } from "next/navigation"
+import {
+  Home,
+  CalendarDays,
+  Image as ImageIcon,
+  MapPin,
+  Mail,
+  MessageCircle,
+} from "lucide-react"
 
-const menus = [
-  { icon: Home, path: "/open" },
-  { icon: CalendarDays, path: "/open/invite" },
-  { icon: Image, path: "/open/gallery" },
-  { icon: MapPin, path: "/open/map" },
-  { icon: Mail, path: "/open/rsvp" },
-  { icon: Bubbles, path: "/open/bubble" },
+const menu = [
+  { id: "home", label: "Home", icon: Home },
+  { id: "invite", label: "Invite", icon: CalendarDays },
+  { id: "gallery", label: "Gallery", icon: ImageIcon },
+  { id: "map", label: "Map", icon: MapPin },
+  { id: "rsvp", label: "RSVP", icon: Mail },
+  { id: "bubble", label: "Bubble", icon: MessageCircle },
 ]
 
 export default function FloatingMenu() {
-  const pathname = usePathname()
-  const router = useRouter()
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    })
+  }
 
   return (
-    <div className="
-      fixed bottom-6 left-1/2 -translate-x-1/2 z-50
-      bg-white/70 backdrop-blur-xl
-      border border-neutral-200
-      shadow-[0_10px_30px_rgba(0,0,0,0.15)]
-      rounded-full px-6 py-3
-      flex gap-6
-    ">
-      {menus.map(({ icon: Icon, path }) => {
-        const active = pathname === path
-        return (
-          <button
-            key={path}
-            onClick={() => router.push(path)}
-            className={`
-              p-2 rounded-full transition
-              ${active
-                ? "bg-neutral-900 text-white"
-                : "text-neutral-600 hover:text-neutral-900"}
-            `}
-          >
-            <Icon size={18} />
-          </button>
-        )
-      })}
+    <div
+      className="
+        fixed bottom-6 left-1/2 -translate-x-1/2 z-[999]
+        bg-white/80 backdrop-blur-xl
+        border border-neutral-200
+        shadow-xl
+        rounded-full px-6 py-3
+        flex gap-4
+      "
+    >
+      {menu.map(({ id, label, icon: Icon }) => (
+        <button
+          key={id}
+          onClick={() => scrollTo(id)}
+          className="
+            flex flex-col items-center justify-center
+            text-neutral-700
+            hover:text-white hover:bg-neutral-900
+            rounded-full p-2 transition
+          "
+        >
+          <Icon size={18} />
+          <span className="text-[10px] mt-1">{label}</span>
+        </button>
+      ))}
     </div>
   )
 }
