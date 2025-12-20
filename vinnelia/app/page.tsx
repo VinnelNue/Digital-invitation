@@ -1,25 +1,20 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useRef } from "react"
-import '@fontsource/great-vibes/400.css'
-import '@fontsource/poppins/400.css'
+import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useRouter } from "next/navigation";
+import GuestName from "../components/GuestName";
+import '@fontsource/great-vibes/400.css';
+import '@fontsource/poppins/400.css';
 
 export default function Invite() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const audioRef = useRef<HTMLAudioElement>(null)
+  const router = useRouter();
+  const audioRef = useRef<HTMLAudioElement>(null);
 
-  const rawName = searchParams.get("to")
-  const guestName = rawName ? decodeURIComponent(rawName) : "Tamu Undangan"
-
-  useEffect(() => {
-    // autoplay, browser kadang blokir autoplay tanpa interaksi
-    audioRef.current?.play().catch(() => {
-      console.log("Autoplay diblokir, tunggu interaksi pengguna")
-    })
-  }, [])
+  const handleOpen = () => {
+    audioRef.current?.play().catch(() => console.log("Audio diblokir"));
+    router.push("/open");
+  };
 
   return (
     <main
@@ -31,7 +26,7 @@ export default function Invite() {
         backgroundPosition: "center",
       }}
     >
-      {/* ===== Audio ===== */}
+      {/* Audio */}
       <audio ref={audioRef} src="/audio/river_flow_in_you.mp3" loop autoPlay />
 
       {/* Couple Names */}
@@ -50,26 +45,14 @@ export default function Invite() {
         </h1>
       </motion.div>
 
-      {/* Greeting to guest */}
-      <motion.div
-        initial={{ opacity: 0, y: 30, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ delay: 0.6, duration: 1 }}
-        className="text-center mb-8"
-      >
-        <p className="font-poppins italic text-sm text-neutral-200 mb-1 tracking-wide text-shadow-md">
-          Kepada yang terhormat
-        </p>
-        <h2 className="font-poppins italic text-2xl md:text-3xl text-white tracking-wide text-shadow-md">
-          {guestName}
-        </h2>
-      </motion.div>
+      {/* Guest Name */}
+      <GuestName />
 
-      {/* Button */}
+      {/* Button Buka Undangan */}
       <motion.button
         whileTap={{ scale: 0.95 }}
         whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255,0,150,0.4)" }}
-        onClick={() => router.push(`/open?to=${rawName ?? ""}`)}
+        onClick={handleOpen}
         className="px-12 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold shadow-xl transition-transform duration-300"
       >
         Buka Undangan
@@ -87,5 +70,5 @@ export default function Invite() {
         </p>
       </motion.footer>
     </main>
-  )
+  );
 }
