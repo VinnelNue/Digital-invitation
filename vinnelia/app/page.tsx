@@ -1,24 +1,20 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useRef } from "react"
-import '@fontsource/great-vibes/400.css'
-import '@fontsource/poppins/400.css'
+import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useRouter } from "next/navigation";
+import ClientName from "../components/GuestName";
+import '@fontsource/great-vibes/400.css';
+import '@fontsource/poppins/400.css';
 
 export default function Invite() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const audioRef = useRef<HTMLAudioElement>(null)
+  const router = useRouter();
+  const audioRef = useRef<HTMLAudioElement>(null);
 
-  const rawName = searchParams.get("to")
-  const guestName = rawName ? decodeURIComponent(rawName) : "Tamu Undangan"
-
-  // tombol buka undangan -> play musik + navigate
   const handleOpen = () => {
-    audioRef.current?.play().catch(() => console.log("Audio diblokir, tunggu interaksi"))
-    router.push(`/open?to=${rawName ?? ""}`)
-  }
+    audioRef.current?.play().catch(() => console.log("Audio diblokir, tunggu interaksi"));
+    router.push("/open");
+  };
 
   return (
     <main
@@ -49,20 +45,8 @@ export default function Invite() {
         </h1>
       </motion.div>
 
-      {/* Greeting to guest */}
-      <motion.div
-        initial={{ opacity: 0, y: 30, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ delay: 0.6, duration: 1 }}
-        className="text-center mb-8"
-      >
-        <p className="font-poppins italic text-sm text-neutral-200 mb-1 tracking-wide text-shadow-md">
-          Kepada yang terhormat
-        </p>
-        <h2 className="font-poppins italic text-2xl md:text-3xl text-white tracking-wide text-shadow-md">
-          {guestName}
-        </h2>
-      </motion.div>
+      {/* Guest Name */}
+      <ClientName />
 
       {/* Button Buka Undangan */}
       <motion.button
@@ -86,5 +70,5 @@ export default function Invite() {
         </p>
       </motion.footer>
     </main>
-  )
+  );
 }
