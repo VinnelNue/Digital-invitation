@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useMemo } from "react"
 import { motion, AnimatePresence, Variants } from "framer-motion"
 import Image from "next/image"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import GalleryModal from "./GalleryModal"
 
 interface ImageItem {
@@ -14,9 +15,8 @@ interface ImageItem {
 /* ===== KONFIG ===== */
 const TOTAL_IMAGES = 24
 const SHOW_COUNT = 9
-const CHANGE_INTERVAL = 8000 // 8 detik
 
-/* ===== BUAT POOL GAMBAR ===== */
+/* ===== IMAGE POOL ===== */
 const imagePool: ImageItem[] = Array.from(
   { length: TOTAL_IMAGES },
   (_, i) => ({
@@ -26,25 +26,26 @@ const imagePool: ImageItem[] = Array.from(
   })
 )
 
-/* ===== RANDOM PICK ===== */
-function getRandomImages() {
-  return [...imagePool]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, SHOW_COUNT)
+/* ===== BAGI JADI PAGE ===== */
+function chunkArray<T>(arr: T[], size: number) {
+  const result = []
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size))
+  }
+  return result
 }
 
 export default function GalleryPreview() {
-  const [images, setImages] = useState<ImageItem[]>(getRandomImages())
+  const [page, setPage] = useState(0)
   const [active, setActive] = useState<ImageItem | null>(null)
 
-  /* ===== AUTO SHUFFLE ===== */
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setImages(getRandomImages())
-    }, CHANGE_INTERVAL)
-
-    return () => clearInterval(interval)
+  /* RANDOM SEKALI SAJA */
+  const pages = useMemo(() => {
+    const shuffled = [...imagePool].sort(() => Math.random() - 0.5)
+    return chunkArray(shuffled, SHOW_COUNT)
   }, [])
+
+  const images = pages[page]
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -52,6 +53,7 @@ export default function GalleryPreview() {
       opacity: 1,
       transition: { staggerChildren: 0.12 },
     },
+    exit: { opacity: 0 },
   }
 
   const itemVariants: Variants = {
@@ -64,7 +66,7 @@ export default function GalleryPreview() {
     exit: {
       opacity: 0,
       y: -30,
-      transition: { duration: 0.5 },
+      transition: { duration: 0.4 },
     },
   }
 
@@ -95,22 +97,21 @@ export default function GalleryPreview() {
         </div>
       </div>
 
-      {/* GALLERY */}
+      {/* GALLERY GRID */}
       <div className="max-w-6xl mx-auto px-6 py-20">
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={page}
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
             {images.map((img, i) => (
               <motion.div
                 key={img.id}
                 variants={itemVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
                 onClick={() => setActive(img)}
                 className={`
                   relative
@@ -128,7 +129,7 @@ export default function GalleryPreview() {
                   alt={`Wedding Moment ${img.id}`}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover object-center transition-transform duration-1000 group-hover:scale-110"
+                  className="object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
 
                 <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
@@ -138,8 +139,27 @@ export default function GalleryPreview() {
                 </div>
               </motion.div>
             ))}
-          </AnimatePresence>
-        </motion.div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* NAVIGATION */}
+        <div className="flex justify-center gap-6 mt-16">
+          <button
+            disabled={page === 0}
+            onClick={() => setPage(p => p - 1)}
+            className="flex items-center gap-2 px-6 py-3 rounded-full border border-neutral-300 disabled:opacity-40 hover:bg-neutral-100 transition"
+          >
+            <ChevronLeft size={18} /> Previous
+          </button>
+
+          <button
+            disabled={page === pages.length - 1}
+            onClick={() => setPage(p => p + 1)}
+            className="flex items-center gap-2 px-6 py-3 rounded-full border border-neutral-300 disabled:opacity-40 hover:bg-neutral-100 transition"
+          >
+            Next <ChevronRight size={18} />
+          </button>
+        </div>
       </div>
 
       {/* MODAL */}

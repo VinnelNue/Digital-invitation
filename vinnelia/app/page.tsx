@@ -1,62 +1,90 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useRef } from "react"
+import '@fontsource/great-vibes/400.css'
+import '@fontsource/poppins/400.css'
 
 export default function Invite() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const audioRef = useRef<HTMLAudioElement>(null)
+
+  const rawName = searchParams.get("to")
+  const guestName = rawName ? decodeURIComponent(rawName) : "Tamu Undangan"
+
+  // tombol buka undangan -> play musik + navigate
+  const handleOpen = () => {
+    audioRef.current?.play().catch(() => console.log("Audio diblokir, tunggu interaksi"))
+    router.push(`/open?to=${rawName ?? ""}`)
+  }
 
   return (
-    <main className="min-h-screen bg-[#f7f3ee] flex items-center justify-center px-6">
-      <div className="text-center max-w-xl">
+    <main
+      className="relative min-h-screen w-full flex flex-col items-center justify-center px-6"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(214, 229, 255, 0.4), rgba(48, 51, 58, 0.4)), url('/images/gallery/22.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* Audio */}
+      <audio ref={audioRef} src="/audio/river_flow_in_you.mp3" loop />
 
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 2, y: 0 }}
-          transition={{ duration: 2 }}
-          className="text-xs tracking-[0.35em] text-neutral-500 mb-8"
-        >
-          WEDDING INVITATION
-        </motion.p>
+      {/* Couple Names */}
+      <motion.div
+        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ delay: 0.3, duration: 1 }}
+        className="text-center mb-8"
+      >
+        <h1 className="font-great-vibes italic text-5xl md:text-6xl text-white">
+          Kevin Immanuel
+        </h1>
+        <div className="opacity-70 text-3xl md:text-4xl my-2 text-white">&</div>
+        <h1 className="font-great-vibes italic text-5xl md:text-6xl text-white">
+          Theresia Nathalia Biantoro
+        </h1>
+      </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 2, y: 0 }}
-          transition={{ delay: 0.6, duration: 2 }}
-          className="font-playfair text-4xl md:text-5xl text-neutral-900 mb-6"
-        >
-            Kevin Immanuel
-           <div className="opacity-90 my-2">&</div> 
-           Theresia Nathalia Biantoro
-        </motion.h1>
+      {/* Greeting to guest */}
+      <motion.div
+        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ delay: 0.6, duration: 1 }}
+        className="text-center mb-8"
+      >
+        <p className="font-poppins italic text-sm text-neutral-200 mb-1 tracking-wide text-shadow-md">
+          Kepada yang terhormat
+        </p>
+        <h2 className="font-poppins italic text-2xl md:text-3xl text-white tracking-wide text-shadow-md">
+          {guestName}
+        </h2>
+      </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 1 }}
-          className="text-sm text-neutral-600 leading-relaxed mb-10"
-        >
-          Dengan penuh sukacita, kami mengundang Anda untuk menjadi bagian
-          dari hari istimewa dalam perjalanan cinta kami.
-        </motion.p>
+      {/* Button Buka Undangan */}
+      <motion.button
+        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255,0,150,0.4)" }}
+        onClick={handleOpen}
+        className="px-12 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold shadow-xl transition-transform duration-300"
+      >
+        Buka Undangan
+      </motion.button>
 
-        <motion.button
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-          onClick={() => router.push("/open")}
-          className="
-            px-10 py-3 rounded-full
-            bg-neutral-900 text-white text-sm tracking-wide
-            shadow-[0_15px_35px_rgba(0,0,0,0.2)]
-            hover:-translate-y-0.5 hover:shadow-[0_25px_45px_rgba(0,0,0,0.3)]
-            transition-all
-          "
-        >
-          Buka Undangan
-        </motion.button>
-
-      </div>
+      {/* Footer */}
+      <motion.footer
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 1 }}
+        className="absolute bottom-4 w-full text-center"
+      >
+        <p className="text-xs text-neutral-300">
+          &copy; 2025 Kevin Immanuel & Theresia Nathalia Biantoro. All rights reserved.
+        </p>
+      </motion.footer>
     </main>
   )
 }

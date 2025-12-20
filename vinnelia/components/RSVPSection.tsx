@@ -11,9 +11,6 @@ export default function RSVPSection() {
   const [status, setStatus] = useState("Hadir")
   const [jumlahTamu, setJumlahTamu] = useState(1)
   const [message, setMessage] = useState("")
-  const [fromColor, setFromColor] = useState("#fbc2eb")
-  const [toColor, setToColor] = useState("#a6c1ee")
-
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState("")
 
@@ -23,14 +20,7 @@ export default function RSVPSection() {
     setSuccess(false)
 
     const { error } = await supabase.from("rsvp").insert([
-      {
-        name,
-        status,
-        jumlah_tamu: jumlahTamu,
-        message,
-        from_color: fromColor,
-        to_color: toColor,
-      },
+      { name, status, jumlah_tamu: jumlahTamu, message },
     ])
 
     if (error) {
@@ -47,9 +37,13 @@ export default function RSVPSection() {
   return (
     <section
       id="rsvp"
-      className="relative py-32 px-6 overflow-hidden"
+      className="
+        relative min-h-screen
+        flex items-center justify-center
+        px-6 overflow-hidden
+      "
     >
-      {/* BACKGROUND BERJALAN */}
+      {/* BACKGROUND */}
       <RSVPBackground />
 
       {/* FORM */}
@@ -60,17 +54,17 @@ export default function RSVPSection() {
         transition={{ duration: 0.8 }}
         className="
           relative z-10
-          max-w-md mx-auto
+          max-w-md w-full
           bg-white/80 backdrop-blur
           rounded-[2rem]
           p-8
           shadow-[0_40px_80px_rgba(0,0,0,0.15)]
-          border border-neutral-200
         "
       >
         <h2 className="font-playfair text-3xl text-center mb-2">
           Konfirmasi Kehadiran
         </h2>
+
         <p className="text-center text-sm text-neutral-600 mb-8">
           Kehadiran Anda adalah kehormatan bagi kami
         </p>
@@ -86,7 +80,6 @@ export default function RSVPSection() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
-
           <Field label="Nama Lengkap">
             <input
               className="input"
@@ -122,25 +115,9 @@ export default function RSVPSection() {
             <textarea
               rows={4}
               className="input"
-              placeholder="Tulis doa terbaik Anda"
               value={message}
               onChange={e => setMessage(e.target.value)}
             />
-          </Field>
-
-          <Field label="Warna Bubble">
-            <div className="flex gap-4">
-              <input
-                type="color"
-                value={fromColor}
-                onChange={e => setFromColor(e.target.value)}
-              />
-              <input
-                type="color"
-                value={toColor}
-                onChange={e => setToColor(e.target.value)}
-              />
-            </div>
           </Field>
 
           <button

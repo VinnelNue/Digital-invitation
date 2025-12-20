@@ -79,6 +79,7 @@ export default function OpenPage() {
         className="bg-gradient-to-b from-purple-50 to-pink-50 py-24 px-6"
       >
         <BubbleSection />
+        
       </section>
 
       <FloatingMenu />

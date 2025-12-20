@@ -4,36 +4,41 @@ import { motion } from "framer-motion"
 import { useMemo } from "react"
 import { CalendarDays, Clock, MapPin } from "lucide-react"
 
-const backgrounds = [
-  "/images/backgrounds/1.jpg",
-  "/images/backgrounds/2.jpg",
-  "/images/backgrounds/3.jpg",
-]
+const backgrounds = Array.from({ length: 20 }, (_, i) =>
+  `/images/gallery/${i + 1}.jpg`
+)
+
 
 export default function InviteSection() {
-  const bg = useMemo(() => {
-    return backgrounds[Math.floor(Math.random() * backgrounds.length)]
-  }, [])
+  const bg = useMemo(
+    () => backgrounds[Math.floor(Math.random() * backgrounds.length)],
+    []
+  )
 
   return (
     <section
       id="invite"
-      className="
-        relative min-h-screen
-        flex items-center justify-center
-        text-white overflow-hidden
-      "
+      className="relative min-h-screen flex items-center justify-center overflow-hidden text-white"
     >
-      {/* BACKGROUND */}
-      <div
-        className="absolute inset-0 bg-center bg-cover"
+      {/* ===== BACKGROUND IMAGE (CINEMATIC) ===== */}
+      <motion.div
+        className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${bg})` }}
+        initial={{ scale: 1.1 }}
+        animate={{ scale: 1 }}
+        transition={{
+          duration: 8,
+          ease: "easeInOut",
+        }}
       />
 
-      {/* DARK OVERLAY */}
-      <div className="absolute inset-0 bg-black/60" />
+      {/* ===== SOFT GRADIENT OVERLAY (BUKAN HITAM PEKAT) ===== */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/60" />
 
-      {/* CONTENT */}
+      {/* ===== VIGNETTE (BIAR FOKUS KE TENGAH) ===== */}
+      <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_140px_rgba(0,0,0,0.75)]" />
+
+      {/* ===== CONTENT ===== */}
       <div className="relative z-10 w-full px-6">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
@@ -52,11 +57,11 @@ export default function InviteSection() {
           transition={{ delay: 0.2 }}
           className="
             max-w-xl mx-auto
-            bg-white/85 backdrop-blur
+            bg-white/90 backdrop-blur-md
             text-neutral-900
             rounded-3xl
             p-10
-            shadow-[0_30px_60px_rgba(0,0,0,0.25)]
+            shadow-[0_30px_80px_rgba(0,0,0,0.35)]
           "
         >
           <div className="space-y-6 text-sm md:text-base">

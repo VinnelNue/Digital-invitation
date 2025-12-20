@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fontsource/great-vibes": "^5.2.8",
+    "@fontsource/poppins": "^5.2.7",
     "@netlify/next": "^1.4.9",
     "@supabase/supabase-js": "^2.88.0",
     "framer-motion": "^12.23.25",
