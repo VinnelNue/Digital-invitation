@@ -15,6 +15,6 @@ export default function GuestName() {
       <h2 className="font-poppins italic text-2xl md:text-3xl text-white tracking-wide text-shadow-md">
         {guestName}
       </h2>
-    </div>
+    </div>  
   );
 }

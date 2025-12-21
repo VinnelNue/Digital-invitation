@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Play, Pause } from "lucide-react";
 import FloatingMenu from "@/components/FloatingMenu";
@@ -12,7 +12,7 @@ import RsvpSection from "@/components/RSVPSection";
 import BubbleSection from "@/components/BubbleSection";
 import ClosingSection from "@/components/ClosingSection";
 
-export default function OpenPage() {
+function OpenContent() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -34,7 +34,6 @@ export default function OpenPage() {
 
   return (
     <main className="bg-neutral-50 text-neutral-800 relative">
-
       {/* Audio */}
       <audio ref={audioRef} src="/audio/river_flow_in_you.mp3" loop />
 
@@ -69,63 +68,38 @@ export default function OpenPage() {
 
           <p className="text-sm opacity-80 mb-4">28.12.2025</p>
 
-          {guestName ? (
-            <div className="mt-6 text-center text-white italic opacity-90 space-y-1 hidden">
-              <p className="text-lg md:text-xl">Selamat datang kepada yang terhormat</p>
+          {guestName && (
+            <div className="mt-6 text-center text-white italic opacity-90 space-y-1">
+              <p className="text-lg md:text-xl">Silahkan scroll ke bawah </p>
               <p className="text-2xl md:text-3xl font-semibold">{guestName}</p>
-              <p className="text-lg md:text-xl">di pernikahan kami</p>
             </div>
-          ) : (
-            <p className="mt-6 text-lg md:text-xl italic text-white opacity-90 text-center hidden">
-              Selamat datang di pernikahan kami
-            </p>
           )}
         </div>
       </section>
 
-      {/* Mempelai */}
-      <section id="User" className="bg-white py-24 px-6">
-        <Mempelai />
-      </section>
-
-      {/* Invite */}
-      <section id="invite" className="bg-white py-24 px-6">
-        <InviteSection />
-      </section>
-
-      {/* Map */}
+      <section id="User" className="bg-white py-24 px-6"><Mempelai /></section>
+      <section id="invite" className="bg-white py-24 px-6"><InviteSection /></section>
+      
       <section id="map" className="relative py-24 px-6">
-        <img
-          src="/images/gallery/2.jpg"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-30"
-          alt=""
-        />
-        <div className="relative">
-          <MapSection />
-        </div>
+        <img src="/images/gallery/2.jpg" className="absolute inset-0 w-full h-full object-cover object-center opacity-30" alt="" />
+        <div className="relative"><MapSection /></div>
       </section>
 
-      {/* Gallery */}
-      <section id="gallery" className="bg-gradient-to-b from-neutral-100 to-neutral-200 py-24 px-6">
-        <GalleryPreview />
-      </section>
-
-      {/* RSVP */}
-      <section id="rsvp" className="bg-white py-24 px-6">
-        <RsvpSection />
-      </section>
-
-      {/* Bubble */}
-      <section id="bubble" className="bg-gradient-to-b from-purple-50 to-pink-50 py-24 px-6">
-        <BubbleSection />
-      </section>
-
-      {/* Closing */}
-      <section id="close">
-        <ClosingSection />
-      </section>
+      <section id="gallery" className="bg-gradient-to-b from-neutral-100 to-neutral-200 py-24 px-6"><GalleryPreview /></section>
+      <section id="rsvp" className="bg-white py-24 px-6"><RsvpSection /></section>
+      <section id="bubble" className="bg-gradient-to-b from-purple-50 to-pink-50 py-24 px-6"><BubbleSection /></section>
+      <section id="close"><ClosingSection /></section>
 
       <FloatingMenu />
     </main>
+  );
+}
+
+// Komponen Utama yang diexport
+export default function OpenPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center">Memuat Undangan...</div>}>
+      <OpenContent />
+    </Suspense>
   );
 }
