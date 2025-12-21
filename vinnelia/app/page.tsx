@@ -1,19 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRef } from "react";
-import { useRouter } from "next/navigation";
 import '@fontsource/great-vibes/400.css';
 import '@fontsource/poppins/400.css';
+import { useState, useEffect } from "react";
+import Link from "next/link";
 
-export default function Invite() {
-  const router = useRouter();
-  const audioRef = useRef<HTMLAudioElement>(null);
+export default function LandingPage() {
+  const [guestName, setGuestName] = useState<string | null>(null);
 
-  const handleOpen = () => {
-    audioRef.current?.play().catch(() => console.log("Audio diblokir"));
-    router.push("/open");
-  };
+  useEffect(() => {
+    const rawName = new URLSearchParams(window.location.search).get("to");
+    if (rawName) setGuestName(decodeURIComponent(rawName));
+  }, []);
 
   return (
     <main
@@ -25,41 +24,49 @@ export default function Invite() {
         backgroundPosition: "center",
       }}
     >
-      {/* Audio */}
-      <audio ref={audioRef} src="/audio/river_flow_in_you.mp3" loop autoPlay />
-
-      {/* Couple Names */}
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ delay: 0.3, duration: 1 }}
-        className="text-center mb-8"
+        className="flex flex-col items-center justify-start text-center text-white w-full max-w-xl"
+        style={{ paddingTop: "5rem" }} // ruang dari top
       >
-        <h1 className="font-great-vibes italic text-5xl md:text-6xl text-white">
-          Kevin Immanuel
-        </h1>
-        <div className="opacity-70 text-3xl md:text-4xl my-2 text-white">&</div>
-        <h1 className="font-great-vibes italic text-5xl md:text-6xl text-white">
-          Theresia Nathalia Biantoro
-        </h1>
+        {/* THE WEDDING OF di top */}
+        <p className="font-poppins text-lg md:text-xl tracking-widest opacity-70 mb-8">
+          THE WEDDING OF
+        </p>
+
+        {/* Nama pengantin */}
+        <h1 className="font-great-vibes italic text-5xl md:text-6xl">Kevin Immanuel</h1>
+        <div className="opacity-70 text-3xl md:text-4xl my-2">&</div>
+        <h1 className="font-great-vibes italic text-5xl md:text-6xl">Theresia Nathalia Biantoro</h1>
+
+        {/* Guest Name */}
+        {guestName && (
+          <div className="mt-12 text-center text-white italic space-y-1">
+            <p className="text-base md:text-lg">Yth. Bapak/Ibu/Saudara/i</p>
+            <p className="text-lg md:text-xl font-semibold">{guestName}</p>
+            <p className="text-base md:text-lg">Tanpa mengurangi rasa hormat,</p>
+            <p className="text-base md:text-lg">
+              kami mengundang anda untuk menghadiri acara pernikahan kami.
+            </p>
+          </div>
+        )}
       </motion.div>
 
       {/* Button Buka Undangan */}
-      <motion.button
-        whileTap={{ scale: 0.95 }}
-        whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255,0,150,0.4)" }}
-        onClick={handleOpen}
+      <Link
+        href={guestName ? `/open?to=${encodeURIComponent(guestName)}` : "/open"}
         className="px-12 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold shadow-xl transition-transform duration-300"
       >
         Buka Undangan
-      </motion.button>
+      </Link>
 
-      {/* Footer */}
       <motion.footer
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 1 }}
-        className="absolute bottom-4 w-full text-center"
+        className="absolute bottom-4 w-full text-center text-white"
       >
         <p className="text-xs text-neutral-300">
           &copy; 2025 Kevin Immanuel & Theresia Nathalia Biantoro. All rights reserved.
