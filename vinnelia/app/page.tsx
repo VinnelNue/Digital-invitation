@@ -20,7 +20,7 @@ function LandingContent() {
       style={{
         backgroundImage: "linear-gradient(rgba(214, 229, 255, 0.4), rgba(48, 51, 58, 0.4)), url('/images/gallery/12.jpg')",
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "right center",
       }}
     >
       <motion.div
