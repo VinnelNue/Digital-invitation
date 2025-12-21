@@ -45,7 +45,7 @@ export default function Mempelai() {
           transition={{ duration: 1 }}
           className="max-w-xs text-black bg-white/70 backdrop-blur-sm p-4 rounded-lg shadow-md text-sm md:text-base space-y-2"
         >
-          <p className="font-bold text-lg">Kevin Putra Biantoro</p>
+          <p className="font-bold text-lg">Kevin Immanuel</p>
           <p>Putra pertama dari Bapak Suliyanto & Ibu Veriyana</p>
         </motion.div>
       </div>
