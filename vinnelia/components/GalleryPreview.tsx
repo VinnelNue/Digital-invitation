@@ -13,8 +13,8 @@ interface ImageItem {
 }
 
 /* ===== KONFIG ===== */
-const TOTAL_IMAGES = 24
-const SHOW_COUNT = 9
+const TOTAL_IMAGES = 17
+const SHOW_COUNT = 6
 
 /* ===== IMAGE POOL ===== */
 const imagePool: ImageItem[] = Array.from(

@@ -5,7 +5,7 @@ import { useMemo } from "react"
 import { CalendarDays, Clock, MapPin } from "lucide-react"
 
 const backgrounds = Array.from({ length: 20 }, (_, i) =>
-  `/images/gallery/${i + 1}.jpg`
+  `/images/groom/${i + 1}.jpg`
 )
 
 
@@ -27,7 +27,7 @@ export default function InviteSection() {
         initial={{ scale: 1.1 }}
         animate={{ scale: 1 }}
         transition={{
-          duration: 8,
+          duration: 5,
           ease: "easeInOut",
         }}
       />
@@ -67,7 +67,7 @@ export default function InviteSection() {
           <div className="space-y-6 text-sm md:text-base">
             <div className="flex items-center gap-4">
               <CalendarDays className="text-neutral-700" />
-              <span>Sabtu, 14 Februari 2026</span>
+              <span>Minggu, 28 Desember 2025</span>
             </div>
 
             <div className="flex items-center gap-4">

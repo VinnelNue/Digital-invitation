@@ -1,15 +1,44 @@
 "use client"
 
+import { useRef, useState } from "react"
 import FloatingMenu from "@/components/FloatingMenu"
+import Mempelai from "@/components/Mempelai"
 import InviteSection from "@/components/InviteSection"
 import GalleryPreview from "@/components/GalleryPreview"
 import MapSection from "@/components/MapSection"
 import RsvpSection from "@/components/RSVPSection"
 import BubbleSection from "@/components/BubbleSection"
+import ClosingSection from "@/components/ClosingSection"
+import { Play, Pause } from "lucide-react"
 
 export default function OpenPage() {
+  const audioRef = useRef<HTMLAudioElement>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  const toggleAudio = () => {
+    if (!audioRef.current) return
+    if (isPlaying) {
+      audioRef.current.pause()
+      setIsPlaying(false)
+    } else {
+      audioRef.current.play().catch(() => console.log("Audio diblokir"))
+      setIsPlaying(true)
+    }
+  }
+
   return (
-    <main className="bg-neutral-50 text-neutral-800">
+    <main className="bg-neutral-50 text-neutral-800 relative">
+
+      {/* Audio */}
+      <audio ref={audioRef} src="/audio/river_flow_in_you.mp3" loop />
+
+      {/* Tombol Play/Pause */}
+      <button
+        onClick={toggleAudio}
+        className="fixed bottom-24 right-6 z-50 bg-white/80 backdrop-blur-md p-3 rounded-full shadow-lg flex items-center justify-center"
+      >
+        {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+      </button>
 
       {/* HERO */}
       <section
@@ -35,9 +64,14 @@ export default function OpenPage() {
           </h1>
 
           <p className="text-sm opacity-80">
-            Minggu · 28 Desember 2025
+              28.12.2025
           </p>
         </div>
+      </section>
+
+      {/* mempelai profil */}
+      <section id="User" className="bg-white py-24 px-6">
+        <Mempelai />
       </section>
 
       {/* INVITE */}
@@ -45,19 +79,8 @@ export default function OpenPage() {
         <InviteSection />
       </section>
 
-      {/* GALLERY */}
-      <section
-        id="gallery"
-        className="bg-gradient-to-b from-neutral-100 to-neutral-200 py-24 px-6"
-      >
-        <GalleryPreview />
-      </section>
-
       {/* MAP */}
-      <section
-        id="map"
-        className="relative py-24 px-6"
-      >
+      <section id="map" className="relative py-24 px-6">
         <img
           src="/images/gallery/2.jpg"
           className="absolute inset-0 w-full h-full object-cover object-center opacity-30"
@@ -68,18 +91,24 @@ export default function OpenPage() {
         </div>
       </section>
 
+      {/* GALLERY */}
+      <section id="gallery" className="bg-gradient-to-b from-neutral-100 to-neutral-200 py-24 px-6">
+        <GalleryPreview />
+      </section>
+
       {/* RSVP */}
       <section id="rsvp" className="bg-white py-24 px-6">
         <RsvpSection />
       </section>
 
       {/* BUBBLE */}
-      <section
-        id="bubble"
-        className="bg-gradient-to-b from-purple-50 to-pink-50 py-24 px-6"
-      >
+      <section id="bubble" className="bg-gradient-to-b from-purple-50 to-pink-50 py-24 px-6">
         <BubbleSection />
-        
+      </section>
+
+      {/* CLOSING */}
+      <section id="close">
+        <ClosingSection />
       </section>
 
       <FloatingMenu />

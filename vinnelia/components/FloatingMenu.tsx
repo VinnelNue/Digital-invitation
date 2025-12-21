@@ -1,5 +1,6 @@
 "use client"
 
+import { profile } from "console"
 import {
   Home,
   CalendarDays,
@@ -7,10 +8,12 @@ import {
   MapPin,
   Mail,
   MessageCircle,
+  User,
 } from "lucide-react"
 
 const menu = [
   { id: "home", label: "Home", icon: Home },
+  { id: "User", label: "User", icon: User  },
   { id: "invite", label: "Invite", icon: CalendarDays },
   { id: "gallery", label: "Gallery", icon: ImageIcon },
   { id: "map", label: "Map", icon: MapPin },

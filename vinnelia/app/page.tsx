@@ -21,7 +21,7 @@ export default function Invite() {
       className="relative min-h-screen w-full flex flex-col items-center justify-center px-6"
       style={{
         backgroundImage:
-          "linear-gradient(rgba(214, 229, 255, 0.4), rgba(48, 51, 58, 0.4)), url('/images/gallery/22.jpg')",
+          "linear-gradient(rgba(214, 229, 255, 0.4), rgba(48, 51, 58, 0.4)), url('/images/gallery/12.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
